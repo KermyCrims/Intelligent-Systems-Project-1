@@ -5,7 +5,7 @@ from settings import WIDTH, HEIGHT
 
 def show_algorithm_info():
     # **********************************************
-    # * 10/28/2025 AI-Generated script begins here *
+    # * 10/28/2025 AI-Generated script begins here * <- See READNE.md
     # **********************************************
     screen = pygame.display.get_surface()
     algorithm_values = ["Breadth-First Search", "Depth-First Search", "A* Search", "Uniform Cost Search"]
