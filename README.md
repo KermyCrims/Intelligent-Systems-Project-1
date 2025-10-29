@@ -15,7 +15,7 @@ Used for:
 	Prompt:
 		@options.py/ ... Write a script based on the multi-line comment in the file
 		
-	\[the multi-line comment in question]
+	[the multi-line comment in question]
 		```
 		def show_algorithm_info():
 			Center a title in the render window and make the Y-top of the title 10% from the top of the window
