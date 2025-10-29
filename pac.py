@@ -1,6 +1,6 @@
 import pygame
 
-from settings import CHAR_SIZE, PLAYER_SPEED
+from settings import CHAR_SIZE, PLAYER_SPEED, ALGORITHM
 from animation import import_sprite
 
 class Pac(pygame.sprite.Sprite):
