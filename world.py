@@ -1,7 +1,7 @@
 import pygame
 import time
 
-from settings import HEIGHT, WIDTH, NAV_HEIGHT, CHAR_SIZE, MAP, PLAYER_SPEED
+from settings import HEIGHT, WIDTH, NAV_HEIGHT, CHAR_SIZE, MAP, PLAYER_SPEED, BOARD_RATIO
 from pac import Pac
 from cell import Cell
 from berry import Berry
@@ -24,8 +24,11 @@ class World:
 		self.player_score = 0
 		self.game_level = 1
 
+		self.algorithm = "bfs"  # default
 		self._generate_world()
 
+		# For AI path replanning cadence
+		self.plan_cooldown = 0
 
 	# create and add player to the screen
 	def _generate_world(self):
@@ -53,7 +56,15 @@ class World:
 					self.player.add(Pac(x_index, y_index))
 
 		self.walls_collide_list = [wall.rect for wall in self.walls.sprites()]
+		# feed walls to pac for grid-based AI
+		self.player.sprite.update_walls(self.walls_collide_list)
 
+	def _berry_grid_positions(self):
+		# Return list of berry grid coords
+		positions = []
+		for b in self.berries.sprites():
+			positions.append((b.abs_x // CHAR_SIZE, b.abs_y // CHAR_SIZE))
+		return positions
 
 	def generate_new_level(self):
 		for y_index, col in enumerate(MAP):
@@ -63,7 +74,6 @@ class World:
 				elif char == "B":	# for big berries
 					self.berries.add(Berry(x_index, y_index, CHAR_SIZE // 2, is_power_up=True))
 		time.sleep(2)
-
 
 	def restart_level(self):
 		self.berries.empty()
@@ -76,8 +86,6 @@ class World:
 		self.player.sprite.status = "idle"
 		self.generate_new_level()
 
-
-	# displays nav
 	def _dashboard(self):
 		nav = pygame.Rect(0, HEIGHT, WIDTH, NAV_HEIGHT)
 		pygame.draw.rect(self.screen, pygame.Color("cornsilk4"), nav)
@@ -85,7 +93,7 @@ class World:
 		self.display.show_life(self.player.sprite.life)
 		self.display.show_level(self.game_level)
 		self.display.show_score(self.player.sprite.pac_score)
-
+		self.display.show_algo(self.player.sprite.algorithm, self.player.sprite.ai_enabled)
 
 	def _check_game_state(self):
 		# checks if game over
@@ -104,11 +112,60 @@ class World:
 			self.player.sprite.status = "idle"
 			self.generate_new_level()
 
+	def handle_event(self, event):
+		# Toggle AI and algorithm selection
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_t:
+				self.player.sprite.set_ai(not self.player.sprite.ai_enabled)
+			elif event.key == pygame.K_1:
+				self.player.sprite.set_algo("bfs")
+			elif event.key == pygame.K_2:
+				self.player.sprite.set_algo("dfs")
+			elif event.key == pygame.K_3:
+				self.player.sprite.set_algo("ucs")
+			elif event.key == pygame.K_4:
+				self.player.sprite.set_algo("astar")
 
-	def update(self):
+	def _ai_plan_if_needed(self):
+		# Recompute path when no path, target eaten, or on cooldown expiry and at grid center
+		pac = self.player.sprite
+		if not pac.ai_enabled:
+			return
+		# Update cached walls (in case of level change)
+		pac.update_walls(self.walls_collide_list)
+
+		berries = self._berry_grid_positions()
+		if not berries:
+			return
+		cur = pac.grid_pos()
+		target = pac.choose_target(berries)
+
+		# replan when needed
+		replan = False
+		if pac.target != target:
+			replan = True
+		if not pac.current_path:
+			replan = True
+		if pac.at_cell_center() and self.plan_cooldown <= 0:
+			replan = True
+
+		if replan:
+			pac.target = target
+			pac.current_path = pac.plan_path(cur, target)
+			# ensure path starts at current cell
+			if pac.current_path and pac.current_path[0] != cur:
+				pac.current_path = [cur] + pac.current_path
+			self.plan_cooldown = 10  # frames until next plan attempt
+
+		self.plan_cooldown = max(0, self.plan_cooldown-1)
+
+	def update(self, events=None):
+		if events is None: events = []
+
 		if not self.game_over:
-			# player movement
+			# player movement (human or AI)
 			pressed_key = pygame.key.get_pressed()
+			self._ai_plan_if_needed()
 			self.player.sprite.animate(pressed_key, self.walls_collide_list)
 
 			# teleporting to the other side of the map

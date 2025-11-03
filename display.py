@@ -8,6 +8,7 @@ class Display:
 	def __init__(self, screen):
 		self.screen = screen
 		self.font = pygame.font.SysFont("ubuntumono", CHAR_SIZE)
+		self.small = pygame.font.SysFont("ubuntumono", CHAR_SIZE//2)
 		self.game_over_font = pygame.font.SysFont("dejavusansmono", 48)
 		self.text_color = pygame.Color("crimson")
 				
@@ -32,7 +33,11 @@ class Display:
 		score = self.font.render(f'{score}', True, self.text_color)
 		self.screen.blit(score, (score_x * 2, (HEIGHT + (CHAR_SIZE // 2))))
 
-	# add game over message
+	def show_algo(self, algo, ai_enabled):
+		text = f'AI: {"ON" if ai_enabled else "OFF"} | Algo: {algo.upper()}  [1:BFS  2:DFS  3:UCS  4:A*  T:Toggle AI]'
+		rendered = self.small.render(text, True, pygame.Color("lightgoldenrod1"))
+		self.screen.blit(rendered, (CHAR_SIZE//2, HEIGHT + CHAR_SIZE))
+
 	def game_over(self):
 		message = self.game_over_font.render(f'GAME OVER!!', True, pygame.Color("chartreuse"))
 		instruction = self.font.render(f'Press "R" to Restart', True, pygame.Color("aqua"))
