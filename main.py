@@ -16,14 +16,17 @@ class Main:
 		world = World(self.screen)
 		while True:
 			self.screen.fill("black")
+			events = []
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					pygame.quit()
 					sys.exit()
+				events.append(event)
+				world.handle_event(event)
 
 			if not PAUSED:
-				world.update()
+				world.update(events)
 				pygame.display.update()
 			if PAUSED:
 				# Display paused message; maybe a pause menu in the future
