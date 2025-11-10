@@ -33,3 +33,21 @@ Used for:
 		```
 
 > End Alex's AI-Usage documentation
+
+# 11/9/25
+
+-Exequiel's AI-usage documentation
+
+Models used:
+	Codex CLI (GPT-5 coding agent)
+
+Used for:
+	Adding ghost-aware auto-pathing and reliability fixes
+	Prompts:
+		- Diagnose Pac-Man clipping through walls at higher speeds and fix the collision/raycast logic in `pac.py`.
+		- Investigate hesitations at corners and adjust AI replanning + target selection to keep movement smooth.
+		- Wire the startup algorithm picker so runtime AI uses the selected search strategy (options menu → game loop).
+		- Make A* (and other planners) avoid ghosts when Pac-Man isn’t powered up, including new hazard tracking and path fallbacks.
+	Files/lines changed (11/9/25 session):
+		- `pac.py` (lines ~35-200): added ghost hazard tracking, smarter target selection, collision raycast, and fallback planning.
+		- `world.py` (lines ~24-165): new ghost-grid helper plus wiring to refresh Pac-Man’s hazard cache each frame.
