@@ -5,10 +5,10 @@ from settings import WIDTH, HEIGHT
 
 def show_algorithm_info():
     # **********************************************
-    # * 10/28/2025 AI-Generated script begins here * <- See READNE.md
+    # * 10/28/2025 AI-Generated script begins here * <- See README.md
     # **********************************************
     screen = pygame.display.get_surface()
-    algorithm_values = ["Breadth-First Search", "Depth-First Search", "A* Search", "Uniform Cost Search"]
+    algorithm_values = ["bfs", "dfs", "astar", "ucs"]
     selected_index = 0
 
     title_font = pygame.font.Font(None, 74)

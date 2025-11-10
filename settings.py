@@ -35,7 +35,7 @@ GHOST_SPEED = 4
 # Auto-pathfinding algorithm used by PACMAN.
 # These values can be "Breadth-First Search", "Depth-First Search", "A* Search", or "Uniform Cost Search"
 # These are modified on the options menu shown at startup (options.py).
-ALGORITHM = "Breadth-First Search" 
+ALGORITHM = "bfs" 
 
 # No current in-game way to pause the game
 PAUSED = False
