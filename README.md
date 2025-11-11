@@ -2,10 +2,17 @@ Base PacMan game taken from https://github.com/x4nth055/pythoncode-tutorials.git
 
 All AI-generated code is marked with comments before and after it along with the date the AI wrote it on.
 
+# AI Concepts Implemented
+
+# Algorithm Choices and Justification
+
+# Challenges Faced and Solutions
+
+# Documentation of LLM Usage
 ---
 
 > Begin Alex's AI-Usage documentation
-# 10/28/25
+## 10/28/25
 
 Models used:
 	Gemini CLI (2.5 Pro)
@@ -34,7 +41,7 @@ Used for:
 
 > End Alex's AI-Usage documentation
 
-# 11/9/25
+## 11/9/25
 
 -Exequiel's AI-usage documentation
 
