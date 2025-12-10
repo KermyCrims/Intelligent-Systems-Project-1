@@ -5,6 +5,7 @@ Authored By: Camon Buller, Exequiel Rodriguez Barri, and Alexander Stockton
 # AI Concepts Implemented
 
 Stochastic Movement: The ghosts have a 60% every move to change directions. If the space next to them in the new direction is a wall, they'll continue in the direction they were already going. If the next space in front of them is a wall, they will choose a new direction.
+
 Automated Pathfinding: PACMAN switches between BFS, DFS, A*, and UCS search algorithms when searching the state space (static maze) for score balls. He also tries his best to avoid ghosts.
 
 # Algorithm Choices and Justification
