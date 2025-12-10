@@ -1,14 +1,19 @@
 Base PacMan game taken from https://github.com/x4nth055/pythoncode-tutorials.git
 
-All AI-generated code is marked with comments before and after it along with the date the AI wrote it on.
+Authored By: Camon Buller, Exequiel Rodriguez Barri, and Alexander Stockton
 
 # AI Concepts Implemented
+
+Stochastic Movement: The ghosts have a 60% every move to change directions. If the space next to them in the new direction is a wall, they'll continue in the direction they were already going. If the next space in front of them is a wall, they will choose a new direction.
+Automated Pathfinding: PACMAN switches between BFS, DFS, A*, and UCS search algorithms when searching the state space (static maze) for score balls. He also tries his best to avoid ghosts.
 
 # Algorithm Choices and Justification
 
 We implemented `Breadth First`, `Depth-First`, `A*`, and `Uniform Cost` searches into the player AI. This allows the player to see how each algorithm chooses paths differently. Each path seeks the score balls instead of avoiding ghosts.
 
 # Challenges Faced and Solutions
+
+Needed a way to toggle PACMAN's AI to shift between search algorithms. Accomplished this by a comparison of strings on the ALGORITHM variable in options.py. Pressing the key 1, 2, 3, or 4 will switch between BFS, DFS, A*, and UCS respectively. Press T to toggle AI OFF/ON, arrow-keys to move w/out AI
 
 # Code Documentation
 
@@ -53,9 +58,9 @@ This section covers rendering and helper functions.
 * **`display.py`**: This class handles rendering all the UI text and information on the screen, such as the current score, number of lives remaining, game level, and game over messages.
 * **`animation.py`**: Contains the `import_sprite` utility function, which loads a sequence of images from a directory to be used for character animations.
 
-# Documentation of LLM Usage
-
 ---
+
+# Documentation of LLM Usage
 
 > Begin Alex's AI-Usage documentation
 
